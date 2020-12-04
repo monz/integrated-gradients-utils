@@ -114,13 +114,33 @@ def random_baseline_integrated_gradients(inp,
                                          target_label_index,
                                          predictions_and_gradients,
                                          steps=50,
-                                         num_random_trials=10):
+                                         num_random_trials=10,
+                                         img_scale=1.0):
+    """
+    Use random noise baseline to calculate Integrated Gradients
+
+    Args:
+        inp: Input image, must have dtype.float. When in range of [0,1] use default img_scale=1.0,
+         for range [0,255] use img_scale=255.0
+        img_height: Image height
+        img_width: Image width
+        img_channel_count: Image channel count, '3' for RGB, '1' for gray-scale
+        target_label_index: Target class label index which should be predicted by the model
+        predictions_and_gradients: Function which returns model's predictions and gradients w.r.t. 'inp'
+        steps: Step count for integration path
+        num_random_trials: Number of  iterations to calculate Integrated Gradients
+        img_scale: Scale value to scale 'baseline' to the same value level, see 'inp' description
+
+    Returns:
+        : Averaged Integrated Gradients
+    """
+
     all_intgrads = []
     for i in range(num_random_trials):
         intgrads, _ = integrated_gradients(inp,
                                            target_label_index=target_label_index,
                                            predictions_and_gradients=predictions_and_gradients,
-                                           baseline=255.0 * np.random.random(
+                                           baseline=img_scale * np.random.random(
                                                [img_height, img_width, img_channel_count]),
                                            steps=steps)
         all_intgrads.append(intgrads)
@@ -133,6 +153,22 @@ def black_baseline_integrated_gradients(inp,
                                         target_label_index,
                                         predictions_and_gradients,
                                         steps=50, ):
+    """
+    Use black baseline to calculate Integrated Gradients
+
+    Args:
+        inp: Input image, must have dtype.float
+        img_height: Image height
+        img_width: Image width
+        img_channel_count: Image channel count, '3' for RGB, '1' for gray-scale
+        target_label_index: Target class label index which should be predicted by the model
+        predictions_and_gradients: Function which returns model's predictions and gradients w.r.t. 'inp'
+        steps: Step count for integration path
+
+    Returns:
+        : Averaged Integrated Gradients
+    """
+
     intgrads, _ = integrated_gradients(inp,
                                        target_label_index=target_label_index,
                                        predictions_and_gradients=predictions_and_gradients,
