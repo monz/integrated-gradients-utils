@@ -193,8 +193,20 @@ def get_outlines(attributions, percentage=90,
     return border_mask
 
 
-def overlay_img(attributions, image):
-    return np.clip(0.7 * image + 0.5 * attributions, 0, 255)
+def overlay_img(attributions, image, image_scale=255.0):
+    """
+    Computes the overlay of image and attributions in order to see Integrated Gradients in
+    combination with its image source
+
+    Params
+        attributions: Computed Integrated Gradients
+        image:  Source image where attributions were computed from
+        image_scale: When the image is in range of [0,1] use 255.0 when in range of [0,255] use 1.0
+
+    Returns
+        : resulting overlay image
+    """
+    return np.clip(0.7 * (image*image_scale) + 0.5 * attributions, 0, 255)
 
 
 def pil_image(x):
@@ -207,8 +219,6 @@ def pil_image(x):
     Returns:
       The PIL image.
     """
-    # x = np.clip(x*255, 0, 255)  # added scaling, because face keypoints use [0,1] images instead of [0,255]
-    x = np.clip(x, 0, 255)  # added scaling, because face keypoints use [0,1] images instead of [0,255]
     x = np.uint8(x)  # original
     return PIL.Image.fromarray(x)
 
