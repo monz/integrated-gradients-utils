@@ -12,7 +12,7 @@ setup(
         'numpy >= 1.19.4',
         'Pillow >= 8.0.1',
         'scipy >= 1.5.4',
-        'tensorflow >= 2.3.1',
+        'tensorflow-gpu >= 2.3.1',
     ],
     license='MIT',
 )
