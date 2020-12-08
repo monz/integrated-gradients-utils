@@ -9,7 +9,7 @@ setup(
     author='Markus Monz',
     install_requires=[
         'matplotlib >= 3.3.3',
-        'numpy >= 1.19.4',
+        'numpy >= 1.18.5',
         'Pillow >= 8.0.1',
         'scipy >= 1.5.4',
     ],
