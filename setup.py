@@ -12,7 +12,10 @@ setup(
         'numpy >= 1.19.4',
         'Pillow >= 8.0.1',
         'scipy >= 1.5.4',
-        'tensorflow-gpu >= 2.3.1',
     ],
+    extras_require={
+        "tf": ["tensorflow >= 2.3.1"],
+        "tf_gpu": ["tensorflow-gpu>=2.3.1"],
+    },
     license='MIT',
 )
